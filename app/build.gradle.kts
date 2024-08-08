@@ -41,8 +41,9 @@ android {
 dependencies {
     val Room_version = "2.6.1"
 
-    implementation(libs.androidx.room.compiler)
-    //ksp(libs.androidx.room.compiler.v261 )
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler.v261 )
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
