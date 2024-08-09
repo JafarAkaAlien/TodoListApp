@@ -10,19 +10,14 @@ import cefertarverdiyevv.gmail.com.todolisttest1.R
 import cefertarverdiyevv.gmail.com.todolisttest1.data.Task
 
 class TaskAdapter(private val tasks:MutableList<Task>,
-                    private val onUpdate:(Int) -> Unit
+                    private val onUpdate:(Int) -> Unit,
+                    private val onDelete:(Task)->Unit
     ):RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
 
-        lateinit var updateButtonPublic:ImageView
-        var currentTaskPosition: Int = 0
 
         private fun deleteTask(position: Int){
             tasks.removeAt(position)
             notifyItemRemoved(position)
-        }
-        private fun updateTask(position: Int,task: Task){
-            tasks[position] = task
-            notifyItemChanged(position)
         }
 
         class TaskViewHolder (itemView: View):RecyclerView.ViewHolder(itemView){
@@ -40,11 +35,10 @@ class TaskAdapter(private val tasks:MutableList<Task>,
     override fun getItemCount() = tasks.size
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-        updateButtonPublic = holder.updateButton
         holder.taskName.text = tasks[position].name
         holder.deleteButton.setOnClickListener{
-            val itemId = holder.adapterPosition
-            deleteTask(itemId)
+            onDelete(tasks[position])
+            deleteTask(holder.adapterPosition)
             }
         holder.updateButton.setOnClickListener{
             onUpdate(position)
